@@ -1,0 +1,16 @@
+<div class="container">
+  <nav class="nav">
+    <select ng-model="date.month">
+      <option ng-repeat="month in months" value="{{ $index }}" ng-selected="$index == date.month">{{ month }}</option>
+    </select>
+    <select ng-model="date.year">
+      <option ng-repeat="year in years" value="{{ year }}" ng-selected="year == date.year">{{ year }}</option>
+    </select>
+  </nav>
+  <div my-calendar="currentDate" ng-class="{outer: !isCurrentMonth(day.date)}">
+    <a class="cac-a" ng-href="#/day/{{ dayKey }}">{{ day.date.getDate() }}</a>
+    <span class="calendar-description">{{ appointments.student }}</span>
+    <span class="calendar-description">{{ appointments.instrument }}</span>
+    <span class="calendar-description">{{ appointments.time | date: "h:mma" }}</span>
+  </div>
+</div>

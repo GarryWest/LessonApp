@@ -1,0 +1,11 @@
+<div class="col-1-2">
+	<form name="myForm" ng-submit="submitted=true; submit()" novalidate>
+		<h1>Enter the Lesson Details for {{dayDetails.displayDate}}</h1>
+		<pre>   Student:<input type="text" id="student" name="student" ng-model="dayDetails.student" autofocus required ></pre>
+		<pre>      Time:<input type="time" id="time" name="time" ng-model="dayDetails.time" autofocus required ></pre>
+		<pre>Instrument:<input type="text" id="instrument" name="instrument" ng-model="dayDetails.instrument" autofocus required ></pre>
+		<input type="submit" value="Submit" >
+		<button ng-click="cancel($event)">Cancel</button>
+	</form>
+</div>
+
