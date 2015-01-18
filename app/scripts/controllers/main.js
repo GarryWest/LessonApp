@@ -9,13 +9,27 @@
  */
 angular.module('lessonsApp')
 	.factory('dataService', function () {
-        var dataResponse = [];
+		var iMonth = 11;
+		var iYear = 40;
+		var dataResponse = new Array();
+		var i = 0;
+		var j = 0;
+		for (i=0;i<iYear;i++) {
+		 	dataResponse[i]=new Array();
+		 	for (j=0;j<iMonth;j++) {
+		  		dataResponse[i][j]=0;
+		 	}
+		};
         return {
-            saveDataResponse:function (data) {
-                dataResponse = data;
+            saveDataResponse:function (year, month, data) {
+            	console.log(year);
+            	console.log(month);
+                dataResponse[year][month] = data;
             },
-            getDataResponse:function () {
-                return dataResponse;
+            getDataResponse:function (year, month) {
+            	console.log(year);
+            	console.log(month);
+                return dataResponse[year][month];
             }
         };
     })
@@ -55,27 +69,42 @@ angular.module('lessonsApp')
 	      priority : 1000,
 	      transclude : 'element',
 	      link : function(scope, element, attrs, ctrl, transclude) {
-	        var containerScope = scope.$new(); 
+	      	var containerScope = scope.$new(); 
 	        var container = angular.element('<div></div>');
 	        container.addClass('calendar-container');
 	        element.after(container);
 
-	        scope.$watch(attrs.myCalendar, function(date, $rootscope) {
+	        scope.$watch(attrs.myCalendar, function(date, $rootscope, attrs) {
 	          if(!date) return;
-
+console.log(date);
 	          var range = CalendarRange.getMonthlyRange(date, dataService);
 	          var appointments = range.appointments;
 	          $rootscope.appointments = range.appointments;
-	          dataService.saveDataResponse(range.appointments);
 
 	          containerScope.$destroy();
 	          containerScope = scope.$new();
 	          container.html('');
 
-	          angular.forEach(range.days, function(day, dayKey) {
+			var month = date.getMonth();
+		    var selectedYear = date.getFullYear(); //getFullYear();
+			var today = new Date();
+			var thisYear = today.getFullYear();
+			var years = [];
+			var then = thisYear - 20;
+			for(var i=then;i<=thisYear + 20;i++) {
+			    years.push(i);
+			};
+			var yearPos = years.indexOf(selectedYear);
+
+	        angular.forEach(range.days, function(day, dayKey) {
 	            var newScope = containerScope.$new();
 	            newScope.day = day;
 	            newScope.dayKey = dayKey;
+
+	            newScope.monthKey = month;
+	            newScope.yearKey = yearPos;
+
+
 	            newScope.appointments = appointments[dayKey];	
 
 	            transclude(newScope, function(newElement) {

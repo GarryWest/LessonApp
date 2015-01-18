@@ -40,20 +40,34 @@ var CalendarRange = {
     var day = new Date(firstDay);
     var days = [];
     var appointments = [];
-    var savedData = dataService.getDataResponse();
+
+    var selectedYear = date.getFullYear(); //getFullYear();
+    var today = new Date();
+    var thisYear = today.getFullYear();
+    var years = [];
+      var then = thisYear - 20;
+      for(var i=then;i<=thisYear + 20;i++) {
+        years.push(i);
+      };
+    var yearPos = years.indexOf(selectedYear);
+    var savedData = dataService.getDataResponse(yearPos, month);
+
     var iCount = 0;
     while(day <= lastDay) {
-      var thisDate = day.getDate();
+      //var thisDate = day.getDate();
+      var thisDay = day.getDate();
       var thisMonth = day.getMonth()+1;
       var thisYear = day.getFullYear();
 
       days.push(this.prepareDate(day));
+      var thisDate = null;
+      appointments.push( savedData[iCount] || {displayDate:(thisMonth+'/' + thisDay + '/' + thisYear), student:'', time: thisDate, instrument:''});
+
       day.setDate(day.getDate() + 1);
       
-      appointments.push( savedData[iCount] || {displayDate:(thisMonth+'/' + thisDate + '/' + thisYear), student:'Sally', time:thisDate, instrument:'oboe'});
       iCount ++;
     };
-    
+    dataService.saveDataResponse(yearPos, month, appointments);
 
 
 
