@@ -6,6 +6,8 @@
     <select ng-model="date.year">
       <option ng-repeat="year in years" value="{{ year }}" ng-selected="year == date.year">{{ year }}</option>
     </select>
+    <button class="glyphicon glyphicon-arrow-left" ng-click="moveBack()"></button>
+    <button class="glyphicon glyphicon-arrow-right" ng-click="moveForward()"></button>
   </nav>
   <div my-calendar="currentDate" ng-class="{outer: !isCurrentMonth(day.date)}">
     <a class="cac-a" ng-href="#/day/{{ dayKey }}/{{ yearKey }}/{{ monthKey }}">{{ day.date.getDate() }}</a>

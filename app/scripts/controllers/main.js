@@ -9,8 +9,8 @@
  */
 angular.module('lessonsApp')
 	.factory('dataService', function () {
-		var iMonth = 11;
-		var iYear = 40;
+		var iMonth = 12;
+		var iYear = 41;
 		var dataResponse = new Array();
 		var i = 0;
 		var j = 0;
@@ -22,22 +22,19 @@ angular.module('lessonsApp')
 		};
         return {
             saveDataResponse:function (year, month, data) {
-            	console.log(year);
-            	console.log(month);
                 dataResponse[year][month] = data;
             },
             getDataResponse:function (year, month) {
-            	console.log(year);
-            	console.log(month);
                 return dataResponse[year][month];
             }
         };
     })
-    .controller('AppCtrl', function($scope) {
+    .controller('AppCtrl', function($scope, yearCode, monthCode) {
 	    var today = new Date();
-	    var year = today.getFullYear();
-	    var month = today.getMonth();
-
+	    var year = yearCode || today.getFullYear();
+	    var month = monthCode || today.getMonth();
+//console.log (year);
+//console.log(month);
 	    $scope.date = {
 	      year : year,
 	      month : month
@@ -62,6 +59,44 @@ angular.module('lessonsApp')
 	    $scope.$watchCollection('date', function(date) {
 	      $scope.currentDate = new Date(date.year, date.month, 1);
 	    });
+
+	    $scope.moveBack = function(){
+            var tmpMonth = Number(month);
+        	var tmpYear = Number(year);
+
+        	if (tmpMonth > 0 || tmpYear > 0) {
+        		tmpMonth = tmpMonth - 1;
+        		if (tmpMonth < 0) {
+        			tmpMonth = 11;
+        			tmpYear = tmpYear - 1;
+        		}
+        	}
+        	if (window.navigate) {
+                window.navigate ("#/"+tmpYear+"/"+tmpMonth);
+            }
+            else {
+                location.assign ("#/"+tmpYear+"/"+tmpMonth);
+            };
+        };
+
+        $scope.moveForward = function(){
+        	var tmpMonth = Number(month);
+        	var tmpYear = Number(year);
+
+        	if (tmpMonth <= 11 || tmpYear <= 40) {
+        		tmpMonth = tmpMonth + 1;
+        		if (tmpMonth > 11) {
+        			tmpMonth = 0;
+        			tmpYear = tmpYear + 1;
+        		}
+        	}
+        	if (window.navigate) {
+                window.navigate ("#/"+tmpYear+"/"+tmpMonth);
+            }
+            else {
+                location.assign ("#/"+tmpYear+"/"+tmpMonth);
+            };
+        };
   	})
   	.directive('myCalendar', ['dataService', function(dataService) {
 	    return {
@@ -76,7 +111,6 @@ angular.module('lessonsApp')
 
 	        scope.$watch(attrs.myCalendar, function(date, $rootscope, attrs) {
 	          if(!date) return;
-console.log(date);
 	          var range = CalendarRange.getMonthlyRange(date, dataService);
 	          var appointments = range.appointments;
 	          $rootscope.appointments = range.appointments;
@@ -85,35 +119,37 @@ console.log(date);
 	          containerScope = scope.$new();
 	          container.html('');
 
-			var month = date.getMonth();
-		    var selectedYear = date.getFullYear(); //getFullYear();
-			var today = new Date();
-			var thisYear = today.getFullYear();
-			var years = [];
-			var then = thisYear - 20;
-			for(var i=then;i<=thisYear + 20;i++) {
-			    years.push(i);
-			};
-			var yearPos = years.indexOf(selectedYear);
+				var month = date.getMonth();
+			    var selectedYear = date.getFullYear(); //getFullYear();
+				var today = new Date();
+				var thisYear = today.getFullYear();
+				var years = [];
+				var then = thisYear - 20;
+				for(var i=then;i<=thisYear + 20;i++) {
+				    years.push(i);
+				};
+				var yearPos = years.indexOf(selectedYear);
 
-	        angular.forEach(range.days, function(day, dayKey) {
-	            var newScope = containerScope.$new();
-	            newScope.day = day;
-	            newScope.dayKey = dayKey;
+		        angular.forEach(range.days, function(day, dayKey) {
+		            var newScope = containerScope.$new();
+		            newScope.day = day;
+		            newScope.dayKey = dayKey;
 
-	            newScope.monthKey = month;
-	            newScope.yearKey = yearPos;
+		            newScope.monthKey = month;
+		            newScope.yearKey = yearPos;
 
 
-	            newScope.appointments = appointments[dayKey];	
+		            newScope.appointments = appointments[dayKey];	
 
-	            transclude(newScope, function(newElement) {
-	              newElement.addClass('calendar-cell');
-	              container.append(newElement);
-	            });
-	          });
+		            transclude(newScope, function(newElement) {
+		              newElement.addClass('calendar-cell');
+		              container.append(newElement);
+		            });
+		          });
 
-	        });
+		        }
+		      );
 	      }
 	    }
 	}]);
+

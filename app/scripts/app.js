@@ -22,7 +22,42 @@ angular
     $routeProvider
       .when('/', {
         templateUrl: 'views/main.html',
-        controller: 'AppCtrl'
+        controller: 'AppCtrl',
+        resolve : {
+               yearCode : ['$route', function($route) {
+                  var today = new Date();
+                  var yearCode = today.getFullYear();
+                  return yearCode;
+               }],
+               monthCode : ['$route', function($route) {
+                  var today = new Date();
+                  var monthCode = today.getMonth();
+                  return monthCode;
+               }]
+        }
+      })
+      .when('/:yearCode/:monthCode', {
+        templateUrl: 'views/main.html',
+        controller: 'AppCtrl',
+        resolve : {
+         yearCode : ['$route', function($route) {
+            var yearIndex = $route.current.params.yearCode;
+
+            var today = new Date();
+            var thisYear = today.getFullYear();
+            var years = [];
+            var then = thisYear - 20;
+            for(var i=then;i<=thisYear + 20;i++) {
+              years.push(i);
+            };
+            var yearCode = years[yearIndex];
+           return yearCode;
+         }],
+         monthCode : ['$route', function($route) {
+           var monthCode = $route.current.params.monthCode;
+           return monthCode;
+         }]
+        }
       })
       .when('/about', {
         templateUrl: 'views/about.html',

@@ -49,6 +49,8 @@ var CalendarRange = {
       for(var i=then;i<=thisYear + 20;i++) {
         years.push(i);
       };
+console.log(selectedYear);
+console.log(month);      
     var yearPos = years.indexOf(selectedYear);
     var savedData = dataService.getDataResponse(yearPos, month);
 
@@ -61,6 +63,9 @@ var CalendarRange = {
 
       days.push(this.prepareDate(day));
       var thisDate = null;
+//console.log(yearPos);
+//console.log(month);
+//console.log(iCount);
       appointments.push( savedData[iCount] || {displayDate:(thisMonth+'/' + thisDay + '/' + thisYear), student:'', time: thisDate, instrument:''});
 
       day.setDate(day.getDate() + 1);
