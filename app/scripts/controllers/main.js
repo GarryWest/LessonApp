@@ -31,10 +31,9 @@ angular.module('lessonsApp')
     })
     .controller('AppCtrl', function($scope, yearCode, monthCode) {
 	    var today = new Date();
+
 	    var year = yearCode || today.getFullYear();
 	    var month = monthCode || today.getMonth();
-//console.log (year);
-//console.log(month);
 	    $scope.date = {
 	      year : year,
 	      month : month
@@ -57,12 +56,30 @@ angular.module('lessonsApp')
 	    $scope.years = years;
 
 	    $scope.$watchCollection('date', function(date) {
-	      $scope.currentDate = new Date(date.year, date.month, 1);
+      		$scope.currentDate = new Date(date.year, date.month, 1);
+
+      		var tmpDate = $scope.currentDate;
+  			var month = tmpDate.getMonth();
+		    var selectedYear = tmpDate.getFullYear(); //getFullYear();
+			var today = new Date();
+			var thisYear = today.getFullYear();
+			var years = [];
+			var then = thisYear - 20;
+			for(var i=then;i<=thisYear + 20;i++) {
+			    years.push(i);
+			};
+			var yearPos = years.indexOf(selectedYear);
+
+			$scope.monthKey = month;
+			$scope.yearKey = yearPos;
+
+
 	    });
 
 	    $scope.moveBack = function(){
-            var tmpMonth = Number(month);
-        	var tmpYear = Number(year);
+	    	
+         	var tmpMonth = Number($scope.monthKey);
+        	var tmpYear = Number($scope.yearKey);
 
         	if (tmpMonth > 0 || tmpYear > 0) {
         		tmpMonth = tmpMonth - 1;
@@ -80,8 +97,9 @@ angular.module('lessonsApp')
         };
 
         $scope.moveForward = function(){
-        	var tmpMonth = Number(month);
-        	var tmpYear = Number(year);
+
+        	var tmpMonth = Number($scope.monthKey);
+        	var tmpYear = Number($scope.yearKey);
 
         	if (tmpMonth <= 11 || tmpYear <= 40) {
         		tmpMonth = tmpMonth + 1;

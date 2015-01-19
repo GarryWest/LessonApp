@@ -42,6 +42,8 @@ angular
         resolve : {
          yearCode : ['$route', function($route) {
             var yearIndex = $route.current.params.yearCode;
+//console.log("HE"+yearIndex);
+
 
             var today = new Date();
             var thisYear = today.getFullYear();

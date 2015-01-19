@@ -49,8 +49,8 @@ var CalendarRange = {
       for(var i=then;i<=thisYear + 20;i++) {
         years.push(i);
       };
-console.log(selectedYear);
-console.log(month);      
+//console.log(selectedYear);
+//console.log(month);      
     var yearPos = years.indexOf(selectedYear);
     var savedData = dataService.getDataResponse(yearPos, month);
 
