@@ -10,7 +10,8 @@
     <button class="glyphicon glyphicon-arrow-right" ng-click="moveForward()"></button>
   </nav>
   <div my-calendar="currentDate" ng-class="{outer: !isCurrentMonth(day.date)}">
-    <a class="cac-a" ng-href="#/day/{{ dayKey }}/{{ yearKey }}/{{ monthKey }}">{{ day.date.getDate() }}</a>
+    <a class="cac-a" ng-hide="{{!isCurrentMonth(day.date)}}" ng-href="#/day/{{ dayKey }}/{{ yearKey }}/{{ monthKey }}">{{ day.date.getDate() }}</a>
+    <span class="cac-a" ng-hide="{{isCurrentMonth(day.date)}}" ng-href="#/day/{{ dayKey }}/{{ yearKey }}/{{ monthKey }}">{{ day.date.getDate() }}</span>
     <span class="calendar-description">{{ appointments.student }}</span>
     <span class="calendar-description">{{ appointments.instrument }}</span>
     <span class="calendar-description" ng-hide="{{appointments.time.getMinutes() === 59}}">{{ appointments.time | date: "h:mma" }}</span>
