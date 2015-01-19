@@ -1,22 +1,24 @@
 'use strict';
 
-describe('Controller: MainCtrl', function () {
+describe('Controller: AppCtrl', function () {
 
   // load the controller's module
   beforeEach(module('lessonsApp'));
 
-  var MainCtrl,
+  var AppCtrl,
     scope;
 
   // Initialize the controller and a mock scope
   beforeEach(inject(function ($controller, $rootScope) {
     scope = $rootScope.$new();
-    MainCtrl = $controller('MainCtrl', {
-      $scope: scope
+    AppCtrl = $controller('AppCtrl', {
+      $scope : scope,
+      yearCode : function() { return true; },
+      monthCode : function() { return true; }
     });
   }));
 
-  it('should attach a list of awesomeThings to the scope', function () {
-    expect(scope.awesomeThings.length).toBe(3);
+  it('should attach a list of months to the scope', function () {
+    expect(scope.months.length).toBe(12);
   });
 });

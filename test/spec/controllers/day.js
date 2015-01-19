@@ -12,11 +12,15 @@ describe('Controller: DayCtrl', function () {
   beforeEach(inject(function ($controller, $rootScope) {
     scope = $rootScope.$new();
     DayCtrl = $controller('DayCtrl', {
-      $scope: scope
+      $scope: scope,
+      dayDetails : function() { return true; },
+      dayCode : function() { return true; },
+      yearCode : function() { return true; },
+      monthCode : function() { return true; }
     });
   }));
 
-  it('should attach a list of awesomeThings to the scope', function () {
-    expect(scope.awesomeThings.length).toBe(3);
+  it('should attach a list of students to the scope', function () {
+    expect(scope.students.length).toBe(4);
   });
 });
