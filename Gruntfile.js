@@ -142,6 +142,7 @@ module.exports = function (grunt) {
           ]
         }]
       },
+      tests: ['tmp'],
       server: '.tmp'
     },
 
@@ -346,6 +347,15 @@ module.exports = function (grunt) {
       ]
     },
 
+    // e2e tests
+    protractor: {
+      options: {
+        keepAlive: true,
+        configFile: "protractor.conf.js"
+      },
+      run: {}
+    },
+
     // Test settings
     karma: {
       unit: {
@@ -355,6 +365,11 @@ module.exports = function (grunt) {
     }
   });
 
+  grunt.loadNpmTasks("grunt-protractor-runner");
+
+   // Whenever the "test" task is run, first clean the "tmp" dir, then run this
+  // plugin's task(s), then test the result.
+  //grunt.registerTask('test', ['clean', 'protractor']);
 
   grunt.registerTask('serve', 'Compile then start a connect web server', function (target) {
     if (target === 'dist') {
@@ -381,7 +396,8 @@ module.exports = function (grunt) {
     'concurrent:test',
     'autoprefixer',
     'connect:test',
-    'karma'
+    'karma',
+    'protractor:run'
   ]);
 
   grunt.registerTask('build', [

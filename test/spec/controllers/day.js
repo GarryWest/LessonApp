@@ -23,4 +23,9 @@ describe('Controller: DayCtrl', function () {
   it('should attach a list of students to the scope', function () {
     expect(scope.students.length).toBe(4);
   });
+
+  it('should attach a list of instruments to the scope', function () {
+    expect(scope.instruments.length).toBe(5);
+  });
+
 });

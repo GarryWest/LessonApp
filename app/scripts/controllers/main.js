@@ -76,6 +76,15 @@ angular.module('lessonsApp')
 
 	    });
 
+	    $scope.doMove = function(year, month){
+        	if (window.navigate) {
+                window.navigate ("#/"+year+"/"+month);
+            }
+            else {
+                location.assign ("#/"+year+"/"+month);
+            };
+        };
+
 	    $scope.moveBack = function(){
 	    	
          	var tmpMonth = Number($scope.monthKey);
@@ -88,12 +97,7 @@ angular.module('lessonsApp')
         			tmpYear = tmpYear - 1;
         		}
         	}
-        	if (window.navigate) {
-                window.navigate ("#/"+tmpYear+"/"+tmpMonth);
-            }
-            else {
-                location.assign ("#/"+tmpYear+"/"+tmpMonth);
-            };
+        	var result = $scope.doMove(tmpYear, tmpMonth);
         };
 
         $scope.moveForward = function(){
@@ -108,13 +112,9 @@ angular.module('lessonsApp')
         			tmpYear = tmpYear + 1;
         		}
         	}
-        	if (window.navigate) {
-                window.navigate ("#/"+tmpYear+"/"+tmpMonth);
-            }
-            else {
-                location.assign ("#/"+tmpYear+"/"+tmpMonth);
-            };
+        	var result = $scope.doMove(tmpYear, tmpMonth);
         };
+        
   	})
   	.directive('myCalendar', ['dataService', function(dataService) {
 	    return {

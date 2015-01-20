@@ -25,7 +25,7 @@ angular.module('lessonsApp')
         $scope.students = students;
         // Instruments collection
         var instruments = [];
-        instruments.push("Accordian","Banjo","Fiddle","Guitar");
+        instruments.push("Accordian","Banjo","Fiddle","Guitar","Xylophone");
         $scope.instruments = instruments;
 
 		$scope.dayCode = dayCode;
